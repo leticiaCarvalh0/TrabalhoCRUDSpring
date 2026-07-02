@@ -31,8 +31,7 @@ public class ContractController {
 	@Autowired
 	private UserRepository userRepository;
 
-	// Disponibiliza as listas dos <select> (usuários e imóveis) para
-	// todas as telas de formulário deste controlador.
+
 	@ModelAttribute("usuarios")
 	public List<br.edu.ifsuldeminas.mch.webii.crudmanager.spring.model.entities.User> allUsers() {
 		return userRepository.findAll();
@@ -54,8 +53,6 @@ public class ContractController {
 
 	@GetMapping("/contracts/form")
 	public String contractForm(Model model) {
-		// Objeto novo com tenant/property vazios apenas para os <select>
-		// (th:field="*{tenant.id}") terem um caminho válido ao renderizar.
 		Contract contract = new Contract();
 		contract.setTenant(new br.edu.ifsuldeminas.mch.webii.crudmanager.spring.model.entities.User());
 		contract.setProperty(new Property());
@@ -67,8 +64,7 @@ public class ContractController {
 	public String contractSave(@ModelAttribute("contract") @Valid Contract contract,
 	                           BindingResult errors) {
 
-		// Validação da seleção dos <select> feita aqui no controlador (didático):
-		// se nenhum item foi escolhido, o id vem nulo.
+		
 		if (contract.getTenant() == null || contract.getTenant().getId() == null)
 			errors.rejectValue("tenant", "required", "Selecione o locatário (usuário).");
 		if (contract.getProperty() == null || contract.getProperty().getId() == null)
@@ -77,11 +73,9 @@ public class ContractController {
 		if (errors.hasErrors())
 			return "contract_form";
 
-		// A partir do id selecionado, busca as entidades completas no banco.
+		
 		contract.setTenant(userRepository.findById(contract.getTenant().getId()).get());
 		Property property = propertyRepository.findById(contract.getProperty().getId()).get();
-
-		// O imóvel escolhido passa a ficar ocupado.
 		property.setOccupied(true);
 		propertyRepository.save(property);
 		contract.setProperty(property);
