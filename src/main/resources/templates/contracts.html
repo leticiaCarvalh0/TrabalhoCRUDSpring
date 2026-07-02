@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+		<div th:replace="cabecalho :: head"></div>
+		
+		<title>Crud Manager - Contratos</title>
+	</head>
+	<body>
+		<div class="container my-2">
+			<h1>Contratos de Locação</h1>
+			<div>				
+				<a class="btn btn-primary btn-sm mb-3 float-right"
+				   th:href="@{/contracts/form}">
+		   			Adicionar Contrato
+        		</a>
+			</div>
+			<table class="table table-striped table-responsive-md">
+				<thead>
+					<tr>
+						<th>Locatário</th>
+						<th>Data de Início</th>
+						<th>Duração (Meses)</th>
+						<th>Imóvel Vinculado</th>
+						<th>Valor do Aluguel</th>
+						<th>Ações</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="contract : ${contratos}">
+						<td th:text="${contract.tenant.name}"></td>
+						<td th:text="${contract.startDate}"></td>
+						<td th:text="${contract.durationMonths}"></td>
+						<td th:text="${contract.property.type + ' em ' + contract.property.city + ' - Endereço: ' + contract.property.address}"></td>
+						<td th:text="'R$ ' + ${contract.property.rentValue}"></td>
+						<td>
+							<a class="btn btn-primary"
+							   th:href="@{/contracts/{id}(id=${contract.id})}">
+								Alterar
+							</a>
+							
+							<a class="btn btn-danger"
+							   th:href="@{/contracts/delete/{id}(id=${contract.id})}">
+								Excluir
+							</a>			
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<a class="btn btn-secondary btn-sm mt-2" th:href="@{/}">Voltar à Home</a>
+		</div>
+	</body>
+</html>

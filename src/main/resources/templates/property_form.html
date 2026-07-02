@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<div th:replace="cabecalho :: head"></div>
+	<title>Crud Manager - Imóvel</title>
+</head>
+
+<body>
+	<div class="container my-2">
+		<h2>Cadastro de Imóvel</h2>
+		<form th:action="@{/properties/save}" 
+			  method="POST"
+			  th:object="${property}">
+			<input type="hidden" id="id" th:field="*{id}">
+			
+			<span class="text-danger"
+			      th:if="${#fields.hasErrors('type')}"
+			      th:errors="*{type}">
+			</span>
+			<input type="text" placeholder="Tipo (Ex: Casa, Apartamento)" 
+			       class="form-control mb-4 col-4"
+			       th:field="*{type}"> 
+			
+			<span class="text-danger"
+			      th:if="${#fields.hasErrors('address')}"
+			      th:errors="*{address}">
+			</span>
+			<input type="text" placeholder="Endereço Completo" 
+			       class="form-control mb-4 col-4"
+			       th:field="*{address}">
+			
+			<span class="text-danger"
+			      th:if="${#fields.hasErrors('rentValue')}"
+			      th:errors="*{rentValue}">
+			</span>
+			<input type="number" step="0.01" placeholder="Valor do Aluguel (R$)"
+			       class="form-control mb-4 col-4"
+			       th:field="*{rentValue}">
+
+			<span class="text-danger"
+			      th:if="${#fields.hasErrors('city')}"
+			      th:errors="*{city}">
+			</span>
+			<input type="text" placeholder="Cidade"
+			       class="form-control mb-4 col-4"
+			       th:field="*{city}">
+
+			<button type="submit" class="btn btn-info col-2">Salvar</button>
+		</form>
+		<hr>
+		<a th:href="@{/properties}">Imóveis</a>
+	</div>
+</body>
+</html>

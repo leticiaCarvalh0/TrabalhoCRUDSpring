@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+		<div th:replace="cabecalho :: head"></div>
+		<title>Crud Manager - Imóveis</title>
+	</head>
+	<body>
+		<div class="container my-2">
+			<h1>Imóveis Disponíveis</h1>
+			<div>				
+				<a class="btn btn-primary btn-sm mb-3 float-right"
+				   th:href="@{/properties/form}">
+		   			Adicionar Imóvel
+        		</a>
+			</div>
+			<table class="table table-striped table-responsive-md">
+				<thead>
+					<tr>
+						<th>Tipo</th>
+						<th>Endereço</th>
+						<th>Cidade</th>
+						<th>Valor do Aluguel</th>
+						<th>Situação</th>
+						<th>Ações</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="property : ${imoveis}">
+						<td th:text="${property.type}"></td>
+						<td th:text="${property.address}"></td>
+						<td th:text="${property.city}"></td>
+						<td th:text="'R$ ' + ${property.rentValue}"></td>
+						<td>
+							<span th:if="${property.occupied}" class="badge badge-danger">Ocupado</span>
+							<span th:unless="${property.occupied}" class="badge badge-success">Disponível</span>
+						</td>
+						<td>
+							<a class="btn btn-primary"
+							   th:href="@{/properties/{id}(id=${property.id})}">
+								Alterar
+							</a>
+							
+							<a class="btn btn-danger"
+							   th:href="@{/properties/delete/{id}(id=${property.id})}">
+								Excluir
+							</a>			
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<hr>
+			<a class="btn btn-secondary btn-sm mt-2" th:href="@{/}">Voltar à Home</a>
+		</div>
+	</body>
+</html>

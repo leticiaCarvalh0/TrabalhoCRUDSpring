@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<div th:replace="cabecalho :: head"></div>
+	<title>Crud Manager - Home</title>
+</head>
+<body>
+	<div class="container my-4">
+		<h1>CRUD Manager com Spring</h1>
+		<p>Selecione uma das opções abaixo para gerenciar o sistema:</p>
+		
+		<hr>
+		
+		<div class="row mt-4">
+			<div class="col-md-4">
+				<a class="btn btn-primary btn-block mb-3" th:href="@{/users}">
+					Gerenciar Usuários
+				</a>
+				
+				<a class="btn btn-primary btn-block mb-3" th:href="@{/properties}">
+    				Gerenciar Imóveis
+				</a>
+				
+				<a class="btn btn-primary btn-block mb-3" th:href="@{/contracts}">
+					Gerenciar Contratos (Imobiliária)
+				</a>
+			</div>
+		</div>
+		
+		<hr class="my-4">
+		<footer>
+			<p>&copy; 2026 - CRUD Manager | Sistema de Imobiliária</p>
+		</footer>
+	</div>
+</body>
+</html>

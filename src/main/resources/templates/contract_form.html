@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<div th:replace="cabecalho :: head"></div>
+	<title>Crud Manager - Contrato de Aluguer</title>
+</head>
+
+<body>
+	<div class="container my-2">
+		<h2>Contrato de Aluguer</h2>
+		<form th:action="@{/contracts/save}"
+			  method="POST"
+			  th:object="${contract}">
+			<input type="hidden" id="id" th:field="*{id}">
+
+			<label class="font-weight-bold">Locatário (Usuário)</label>
+			<span class="text-danger"
+			      th:if="${#fields.hasErrors('tenant')}"
+			      th:errors="*{tenant}">
+			</span>
+			<select class="form-control mb-4 col-4" th:field="*{tenant.id}">
+				<option value="">-- Selecione o usuário --</option>
+				<option th:each="u : ${usuarios}"
+				        th:value="${u.id}"
+				        th:text="${u.name + ' (' + u.email + ')'}">
+				</option>
+			</select>
+
+			<label class="font-weight-bold">Imóvel</label>
+			<span class="text-danger"
+			      th:if="${#fields.hasErrors('property')}"
+			      th:errors="*{property}">
+			</span>
+			<select class="form-control mb-4 col-4" id="propertySelect" th:field="*{property.id}">
+				<option value="">-- Selecione o imóvel --</option>
+				<option th:each="p : ${imoveis}"
+				        th:value="${p.id}"
+				        th:attr="data-rent=${p.rentValue}"
+				        th:text="${p.type + ' - ' + p.city + ' - ' + p.address + (p.occupied ? ' [Ocupado]' : ' [Disponível]')}">
+				</option>
+			</select>
+
+			<label class="font-weight-bold">Valor do Aluguel (vem do imóvel)</label>
+			<input type="text" id="rentDisplay"
+			       class="form-control mb-4 col-4"
+			       placeholder="Selecione um imóvel"
+			       readonly>
+
+			<label class="font-weight-bold">Data de Início</label>
+			<span class="text-danger"
+			      th:if="${#fields.hasErrors('startDate')}"
+			      th:errors="*{startDate}">
+			</span>
+			<input type="text" placeholder="Data de Início (AAAA-MM-DD)"
+			       class="form-control mb-4 col-4"
+			       th:field="*{startDate}">
+
+			<label class="font-weight-bold">Duração (Meses)</label>
+			<span class="text-danger"
+			      th:if="${#fields.hasErrors('durationMonths')}"
+			      th:errors="*{durationMonths}">
+			</span>
+			<input type="number" placeholder="Duração (Meses)"
+			       class="form-control mb-4 col-4"
+			       th:field="*{durationMonths}">
+
+			<button type="submit" class="btn btn-info col-2">Salvar</button>
+		</form>
+		<hr>
+		<a th:href="@{/contracts}">Contratos</a>
+	</div>
+
+	<!-- Atualiza o valor do aluguel exibido a partir do imóvel selecionado. -->
+	<script>
+		(function () {
+			var select = document.getElementById('propertySelect');
+			var rent = document.getElementById('rentDisplay');
+			function updateRent() {
+				var opt = select.options[select.selectedIndex];
+				var value = opt ? opt.getAttribute('data-rent') : null;
+				rent.value = value ? 'R$ ' + value : '';
+			}
+			select.addEventListener('change', updateRent);
+			updateRent();
+		})();
+	</script>
+</body>
+</html>
