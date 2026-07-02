@@ -53,9 +53,7 @@ public class UserController {
 
 		boolean isNewUser = (user.getId() == null);
 
-		// Senha: obrigatória apenas no cadastro. Na edição, se deixada em
-		// branco, a senha atual é mantida (não é reexibida no formulário
-		// por segurança).
+		
 		if (isNewUser) {
 			if (user.getPassword() == null || user.getPassword().isBlank())
 				errors.rejectValue("password", "required", "A senha não pode ser vazia.");
